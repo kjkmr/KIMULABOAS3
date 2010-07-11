@@ -7,7 +7,7 @@ package jp.kimulabo.utils {
 		/*--------------------------------------------------
 		* instanceプロパティ
 		--------------------------------------------------*/
-		public var enabled:Boolean = false;
+		public var enabled:Boolean = true;
 		public var func:Function;
 		private var _dependsOn:DisplayObject;
 		private var _delayed:Boolean;

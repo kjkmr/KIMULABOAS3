@@ -103,12 +103,12 @@ package jp.kimulabo.utils {
 		* 
 		* 
 		--------------------------------------------------*/
-		public static function add( ... args ):void {
+		public static function add( ... args ):* {
 			if ( args.length < 1 ) throw("Invalid arguments.");
 			if ( args[0] is DisplayObject ) {
-				addObject.apply( ResizeManager, args );
+				return addObject.apply( ResizeManager, args );
 			} else if ( args[0] is Function ) {
-				addFunction.apply( ResizeManager, args );
+				return addFunction.apply( ResizeManager, args );
 			}
 		}
 		
@@ -126,7 +126,7 @@ package jp.kimulabo.utils {
 		* i_target:DisplayObject	
 		* i_settings:Object			
 		--------------------------------------------------*/
-		public static function addObject( i_target:DisplayObject, i_settings:Object, i_delayed:Boolean = false ):void {
+		public static function addObject( i_target:DisplayObject, i_settings:Object, i_delayed:Boolean = false ):ResizeManagedObject {
 			var obj:ResizeManagedObject = new ResizeManagedObject( i_target, i_settings, i_delayed );
 			registeredObjects[i_target] = obj;
 			if ( i_target.stage ) {
@@ -135,6 +135,7 @@ package jp.kimulabo.utils {
 			} else {
 				i_target.addEventListener( Event.ADDED_TO_STAGE, _onObjectStatusChange, false, 0, true );
 			}
+			return obj;
 		}
 		
 		/*--------------------------------------------------
@@ -195,7 +196,7 @@ package jp.kimulabo.utils {
 		* i_function:Function	リサイズ時に実行するfunctionの参照
 		* i_delayed:Boolean		遅延実行するかどうか
 		--------------------------------------------------*/
-		public static function addFunction( i_function:Function, i_delayed:Boolean = false, i_dependsOn:DisplayObject = null ):void {
+		public static function addFunction( i_function:Function, i_delayed:Boolean = false, i_dependsOn:DisplayObject = null ):ResizeManagedFunction {
 			var funcObj:ResizeManagedFunction = new ResizeManagedFunction( i_function, i_delayed, i_dependsOn );
 			registeredFunctions[funcObj.func] = funcObj;
 			if ( funcObj.dependsOn ) {
@@ -209,6 +210,7 @@ package jp.kimulabo.utils {
 			} else {
 				_addFunction( funcObj );
 			}
+			return funcObj;
 		}
 		
 		/*--------------------------------------------------
@@ -307,6 +309,12 @@ package jp.kimulabo.utils {
 			_delayed();
 		}
 		
+		/*--------------------------------------------------
+		* DisplayObjectをリサイズ
+		--------------------------------------------------*/
+		public static function fit( i_obj:ResizeManagedObject ):void {
+			_fit( i_obj );
+		}
 		
 		/*--------------------------------------------------
 		* DisplayObjectをリサイズする計算
@@ -319,7 +327,7 @@ package jp.kimulabo.utils {
 			var ww:Number = t.width;
 			var hh:Number = t.height;
 			
-			if ( i_obj.keepRatio && ( i_obj.width || i_obj.height ) ) {//縦横比率を保持したままリサイズする場合
+			if ( i_obj.keepRatio && ( !isNaN(i_obj.width) || !isNaN(i_obj.height) ) ) {//縦横比率を保持したままリサイズする場合
 				
 				t.scaleX = t.scaleY = 1;
 				
@@ -346,14 +354,19 @@ package jp.kimulabo.utils {
 				}
 				
 			} else {
-				if ( i_obj.width ) ww = _width * i_obj.width;
-				if ( i_obj.height ) hh = _height * i_obj.height;
+				if ( !isNaN(i_obj.width) ) ww = _width * i_obj.width;
+				if ( !isNaN(i_obj.height) ) hh = _height * i_obj.height;
 			}
 			
 			ww += i_obj.offsetWidth;
 			hh += i_obj.offsetHeight;
+			t.width = ww;
+			t.height = hh;
 			
 			var rect:Rectangle = t.getBounds(t);
+			
+			rect.x *= t.scaleX;
+			rect.y *= t.scaleY;
 			
 			//位置調整
 			if ( !isNaN( i_obj.x ) ) {
@@ -366,13 +379,11 @@ package jp.kimulabo.utils {
 			if ( !isNaN(i_obj.y) ) {
 				yy = _height * i_obj.y;
 				if ( !isNaN(i_obj.offsetY) ) yy += i_obj.offsetY;			//差分調整
-				if ( i_obj.considerHeight ) yy -= hh * i_obj.y + rect.x;	//高さを考慮してY座標を調整
+				if ( i_obj.considerHeight ) yy -= hh * i_obj.y + rect.y;	//高さを考慮してY座標を調整
 				if ( i_obj.round ) yy = yy + 0.5 >> 0;						//四捨五入
 			}
 			
 			//プロパティの設定
-			t.width = ww;
-			t.height = hh;
 			t.x = xx;
 			t.y = yy;
 			
