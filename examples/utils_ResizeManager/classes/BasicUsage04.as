@@ -8,12 +8,11 @@ package {
 	
 	public class BasicUsage04 extends Sprite {
 		
-		
 		/*--------------------------------------------------
 		* ResizeManagerの基本的な使い方（４）
 		* 
 		* ResizeManager.addの戻り値のResizeManagedObjectの
-		* インスタンスのプロパティーをトゥイーンさせる
+		* インスタンスのプロパティをトゥイーンさせる
 		--------------------------------------------------*/
 		public function BasicUsage04() {
 			
