@@ -58,7 +58,6 @@ package jp.kimulabo.utils {
 		public function set target( i_value:DisplayObject ):void { _target = i_value; fit(); }
 		public function set delayed( i_value:Boolean ):void { _delayed = i_value; fit(); }
 		
-		
 		/*--------------------------------------------------
 		* Constructor
 		--------------------------------------------------*/

@@ -5,7 +5,7 @@ package jp.kimulabo.utils {
 	public class ResizeManagedFunction {
 		
 		/*--------------------------------------------------
-		* instanceプロパティ
+		* instance変数
 		--------------------------------------------------*/
 		public var enabled:Boolean = true;
 		public var func:Function;
@@ -14,7 +14,6 @@ package jp.kimulabo.utils {
 		
 		public function get dependsOn():DisplayObject { return _dependsOn; }
 		public function get delayed():Boolean { return _delayed; }
-		
 		
 		/*--------------------------------------------------
 		* Constructor
