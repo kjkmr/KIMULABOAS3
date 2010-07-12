@@ -5,7 +5,6 @@ package {
 	
 	public class BasicUsage02 extends Sprite {
 		
-		
 		/*--------------------------------------------------
 		* ResizeManagerの基本的な使い方（２）
 		* 
