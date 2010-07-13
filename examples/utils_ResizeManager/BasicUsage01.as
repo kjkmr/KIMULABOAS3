@@ -3,6 +3,7 @@ package {
 	import flash.display.Shape;
 	import jp.kimulabo.utils.ResizeManager;
 	
+	
 	public class BasicUsage01 extends Sprite {
 		
 		/*--------------------------------------------------
