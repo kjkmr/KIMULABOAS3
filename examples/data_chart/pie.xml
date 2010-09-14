@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chart>
+	<content>
+		<label>
+			<data>TVCM</data>
+			<data>新聞広告</data>
+			<data>雑誌広告</data>
+			<data>交通広告</data>
+			<data>看板</data>
+			<data>フライヤー</data>
+		</label>
+		<row unit="">
+			<data>158</data>
+			<data>151</data>
+			<data>104</data>
+			<data>92</data>
+			<data>61</data>
+			<data>21</data>
+		</row>
+	</content>
+</chart>
