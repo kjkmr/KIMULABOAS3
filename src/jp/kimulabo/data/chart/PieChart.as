@@ -9,7 +9,7 @@
 	import jp.kimulabo.display.RectangleSprite;
 	
 	/*--------------------------------------------------
-	* 円グラフを作成するクラス
+	* 円グラフを表示するクラス
 	--------------------------------------------------*/
 	public class PieChart extends Sprite {
 		
