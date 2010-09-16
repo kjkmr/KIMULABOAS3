@@ -1,89 +1,1 @@
-﻿package jp.kimulabo.data.chart {
-	
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	
-	/*--------------------------------------------------
-	* グラフを構成するパーツの基本クラス
-	--------------------------------------------------*/
-	public class ChartPart extends Sprite {
-		
-		/*--------------------------------------------------
-		* インスタンス変数
-		--------------------------------------------------*/
-		
-		protected var _data:XML;
-		protected var _color:uint;
-		protected var _unit:String;
-		protected var _value:Number;
-		protected var _tooltip:String;
-		protected var _tip:ChartTooltip;
-		
-		public function get data():XML { return _data; }
-		public function get color():uint { return _color; }
-		public function get unit():String { return _unit; }
-		public function get value():Number { return _value; }
-		public function get tooltip():String { return _tooltip; }
-		
-		/*--------------------------------------------------
-		* コンストラクタ
-		--------------------------------------------------*/
-		public function ChartPart( i_data:XML, i_color:uint, i_unit:String = "" ) {
-			
-			//プロパティ
-			_data = i_data;
-			_color = i_color;
-			_unit = i_unit;
-			_value = parseFloat( _data.children().toString() );
-			_tooltip = _data.@tooltip.toString();
-			if ( !_tooltip ) _tooltip = _value + _unit;
-			
-			_tip = new ChartTooltip();
-			
-			//マウスイベント
-			addEventListener( MouseEvent.ROLL_OVER, _onRollOver );
-			addEventListener( MouseEvent.ROLL_OUT, _onRollOut );
-			buttonMode = true;
-		}
-		
-		/*--------------------------------------------------
-		* マウスイベント
-		--------------------------------------------------*/
-		protected function _onRollOver( i_event:MouseEvent ):void {
-			alpha = 0.75;
-			parent.addChild( _tip );
-		}
-		
-		protected function _onRollOut( i_event:MouseEvent ):void {
-			alpha = 1;
-			if ( parent.contains( _tip ) ) parent.removeChild( _tip );
-		}
-		
-		/*--------------------------------------------------
-		* Tooltip
-		--------------------------------------------------*/
-		public function get label():String { return _tip.label; }
-		public function set label( i_value:String ):void {
-			_tip.label = i_value;
-		}
-		
-		public function get spec():String { return _tip.spec; }
-		public function set spec( i_value:String ):void {
-			_tip.spec = i_value;
-		}
-		
-		/*--------------------------------------------------
-		* クリア
-		--------------------------------------------------*/
-		public function clear():void {
-			graphics.clear();
-		}
-		
-		/*--------------------------------------------------
-		* 削除
-		--------------------------------------------------*/
-		public function remove():void {
-			if ( parent ) parent.removeChild( this );
-		}
-	}
-}
+﻿package jp.kimulabo.data.chart {		import flash.display.Sprite;	import flash.events.MouseEvent;	import jp.kimulabo.utils.NumberFormatter;		/*--------------------------------------------------	* グラフを構成するパーツの基本クラス	--------------------------------------------------*/	public class ChartPart extends Sprite {				/*--------------------------------------------------		* インスタンス変数		--------------------------------------------------*/				protected var _color:uint;		protected var _unit:String;		protected var _value:Number;		protected var _tooltipContainer:Sprite;		protected var _tooltip:ChartTooltip;				public function get color():uint { return _color; }		public function get unit():String { return _unit; }		public function get value():Number { return _value; }				/*--------------------------------------------------		* コンストラクタ		--------------------------------------------------*/		public function ChartPart( i_value:Number, i_color:uint, i_tooltipContainer:Sprite, i_unit:String = "" ) {						//プロパティ			_color = i_color;			_value = i_value;			_tooltipContainer = i_tooltipContainer;			_unit = i_unit;			_tooltip = new ChartTooltip();						//マウスイベント			addEventListener( MouseEvent.ROLL_OVER, _onRollOver );			addEventListener( MouseEvent.ROLL_OUT, _onRollOut );			buttonMode = true;		}				/*--------------------------------------------------		* マウスイベント		--------------------------------------------------*/		protected function _onRollOver( i_event:MouseEvent ):void {			alpha = 0.75;			_tooltipContainer.addChild( _tooltip );		}				protected function _onRollOut( i_event:MouseEvent ):void {			alpha = 1;			if ( _tooltipContainer.contains( _tooltip ) ) _tooltipContainer.removeChild( _tooltip );		}				/*--------------------------------------------------		* Tooltip		--------------------------------------------------*/		public function get label():String { return _tooltip.label; }		public function set label( i_value:String ):void {			_tooltip.label = i_value;		}				public function get spec():String { return _tooltip.spec; }		public function set spec( i_value:String ):void {			_tooltip.spec = i_value;		}				/*--------------------------------------------------		* クリア		--------------------------------------------------*/		public function clear():void {			graphics.clear();		}				/*--------------------------------------------------		* 削除		--------------------------------------------------*/		public function remove():void {			if ( _tooltipContainer ) _tooltipContainer.removeChild( this );		}	}}
