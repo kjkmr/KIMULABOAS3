@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <chart>
-	<content>
-		<label>
-			<data>TVCM</data>
-			<data>新聞広告</data>
-			<data>雑誌広告</data>
-			<data>交通広告</data>
-			<data>看板</data>
-			<data>フライヤー</data>
-		</label>
-		<row unit="">
-			<data>158</data>
-			<data>151</data>
-			<data>104</data>
-			<data>92</data>
-			<data>61</data>
-			<data>21</data>
+	<rows unit="">
+		<row label="TVCM">
+			<data>15889</data>
 		</row>
-	</content>
+		<row label="新聞広告">
+			<data>15125</data>
+		</row>
+		<row label="雑誌広告">
+			<data>10401</data>
+		</row>
+		<row label="交通広告">
+			<data>920</data>
+		</row>
+		<row label="看板">
+			<data>615</data>
+		</row>
+		<row label="フライヤー">
+			<data>214</data>
+		</row>
+		<row label="折り込みチラシ">
+			<data>152</data>
+		</row>
+		<row label="DM">
+			<data>140</data>
+		</row>
+		<row label="PCサイト">
+			<data>138</data>
+		</row>
+		<row label="メルマガ">
+			<data>121</data>
+		</row>
+	</rows>
 </chart>
