@@ -82,7 +82,11 @@
 		public function start( i_time:Number = NaN, i_scale:Number = NaN ):void {
 			if ( _slave ) return;
 			if ( !duration ) return;
-			if ( !_timeKeeper ) _timeKeeper = new TimeKeeper( _update, _time );
+			if ( !_timeKeeper ) {
+                _timeKeeper = new TimeKeeper();
+                _timeKeeper.time = _time;
+            }
+            _timeKeeper.onUpdate = _update;
 			if ( !isNaN(i_time) ) time = i_time;
 			if ( !isNaN(i_scale) ) scale = i_scale;
 			_timeKeeper.start();
