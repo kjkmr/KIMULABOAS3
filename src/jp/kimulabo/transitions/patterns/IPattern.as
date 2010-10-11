@@ -1,4 +1,4 @@
-﻿package jp.starryworks.transitions.patterns {
+﻿package jp.kimulabo.transitions.patterns {
 	
 	public interface IPattern {
 		function get bitmaps():Array;
