@@ -42,7 +42,7 @@
             bpm = i_bpm;
             takt = i_takt;
 			_time = i_time;
-            _beat = 60 / 120;
+            _beat = bpm / 60;
             _bar = _beat * takt;
 		}
 
@@ -55,11 +55,11 @@
 		/*--------------------------------------------------
 		* 拍数・小節数から時間に変換
 		--------------------------------------------------*/
-        public function bar2time( i_bar:Number, i_beat:Number=0 ):Number {
+        public function bar( i_bar:Number, i_beat:Number=0 ):Number {
            return _bar * i_bar + _beat * i_beat;
         }
 
-        public function beat2time( i_beat:Number ):Number {
+        public function beat( i_beat:Number ):Number {
             return _beat * i_beat;
         }
 
