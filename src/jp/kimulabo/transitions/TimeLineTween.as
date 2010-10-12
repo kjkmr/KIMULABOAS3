@@ -36,7 +36,7 @@
 			_delay = i_delay;
 			_duration = i_duration;
 			if ( isNaN( _duration ) ) _calcDuration();
-			_cues.sortOn( "time" );
+			_cues.sortOn( "time", Array.NUMERIC );
 		}
 		
 		/*--------------------------------------------------

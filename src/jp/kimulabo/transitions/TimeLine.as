@@ -243,7 +243,7 @@
 		--------------------------------------------------*/
 		public function addFunction( i_time:Number, i_function:Function ):void {
 			_functions.push( new Cue( i_time, i_function ) );
-			_functions.sortOn( "time" );
+			_functions.sortOn( "time", Array.NUMERIC );
 			_calcurateDuration();
 		}
 		
@@ -257,7 +257,7 @@
 					throw( "TimeLine.addTween : the value of the cue must be a function." );
 				}
 			}
-			_functions.sortOn( "time" );
+			_functions.sortOn( "time", Array.NUMERIC );
 			_calcurateDuration();
 		}
 		
