@@ -13,10 +13,7 @@
 		* プロパティ
 		--------------------------------------------------*/
 		public var loop:Boolean = false;
-		public var slaveIn:Number = 0;
-		public var slaveOut:Number;
 		public var scale:Number = 1;
-        public var delay:Number;
 		
 		private var _timeKeeper:TimeKeeper;
 		private var _time:Number = 0;
@@ -26,12 +23,29 @@
 		
 		//
 		private var _slave:Boolean = false;
+		private var _slaveIn:Number = 0;
+		private var _slaveOut:Number;
 		
 		
 		//
 		private var _tweens:Dictionary = new Dictionary( true );
 		private var _slaves:Dictionary = new Dictionary( true );
 		private var _functions:Array = [];
+
+        public function get slaveIn():Number {
+            return isNaN(_slaveIn) ? 0 : _slaveIn;
+        }
+        public function set slaveIn( i_value:Number ):void {
+            _slaveIn = i_value;
+        }
+
+        public function get slaveOut():Number {
+            return isNaN(_slaveOut) ? _slaveIn + duration : _slaveOut;
+        }
+        public function set slaveOut( i_value:Number ):void {
+            _slaveOut = i_value;
+        }
+       
 		
 		/*--------------------------------------------------
 		* コンストラクタ
@@ -130,8 +144,10 @@
 			//SlaveのTimeLineの更新
 			var child:TimeLine;
 			for each ( child in _slaves ) {
-                if ( isNaN(_lastUpdateTime) || _lastUpdateTime < child.delay ) {
+                if ( ( isNaN(_lastUpdateTime) || _lastUpdateTime < child.slaveIn ) && time >= child.slaveIn ) {
                     child.dispatchEvent( new TimeLineEvent( TimeLineEvent.START) );
+                } else if ( !isNaN(_lastUpdateTime) && _lastUpdateTime < child.slaveOut && time >= child.slaveOut ) {
+                    child.dispatchEvent( new TimeLineEvent( TimeLineEvent.COMPLETE ) );
                 }
                 child.time = time;
             }
@@ -185,16 +201,20 @@
 		* Tweenの追加
 		--------------------------------------------------*/
 		public function addTween( i_obj:*, i_properties:*, i_cues:Array, i_delay:Number = 0, i_duration:Number = NaN ):void {
-			if ( !_tweens[i_obj] ) _tweens[i_obj] = {};
 			var t:TimeLineTween;
+            if ( i_obj is Array ); else i_obj = [i_obj];
 			if ( i_properties is String ) i_properties = [i_properties];
 			if ( i_properties is Array ) {
 				var prop:String;
-				for each ( prop in i_properties ) {
-					t = new TimeLineTween( i_obj, prop, i_cues, i_delay, i_duration );
-					t.update( _time );
-					_tweens[i_obj][prop] = t;
-				}
+                var obj:*;
+                for each ( obj in i_obj ) {
+			        if ( !_tweens[obj] ) _tweens[obj] = {};
+                    for each ( prop in i_properties ) {
+                        t = new TimeLineTween( obj, prop, i_cues, i_delay, i_duration );
+                        t.update( _time );
+                        _tweens[obj][prop] = t;
+                    }
+                }
 			}
 			_calcurateDuration();
 		}
@@ -274,7 +294,7 @@
 			var child:TimeLine;
 			var cd:Number;
 			for each ( child in _slaves ) {
-				cd = child.duration
+				cd = child.slaveOut ? child.slaveOut : child.duration + ( isNaN(child.slaveIn) ? 0 : child.slaveIn );
 				if ( _calcuratedDuration < cd ) _calcuratedDuration = cd;
 			}
 			
