@@ -128,8 +128,7 @@
 		private function _enterFrame( i_event:Event ):void {
 			_index += _speed;
 			if ( _index >= _bitmaps.length ) _index = 0;
-			var i:uint = _index >> 0;
-			_bitmap.bitmapData = _bitmaps[i];
+			_bitmap.bitmapData = _bitmaps[_index >> 0];
 			
 			//フェード
 			if ( _fadeStart ) {
