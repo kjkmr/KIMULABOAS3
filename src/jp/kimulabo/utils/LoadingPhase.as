@@ -1,4 +1,4 @@
-﻿package jp.kimulabo.utils {
+package jp.kimulabo.utils {
 	
 	import flash.events.EventDispatcher;
 	import flash.system.ApplicationDomain;
@@ -6,6 +6,7 @@
 	
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;
+	import flash.media.SoundLoaderContext;
 	
 	/*--------------------------------------------------
 	* ローディングのフェーズを管理するクラス
@@ -50,7 +51,17 @@
 			}
 			_loader = new BulkLoader( _name, _connection );
 			var path:String;
-			for each ( path in _paths ) _loader.add( path, { context:new LoaderContext(false, ApplicationDomain.currentDomain) } );
+			var option:Object;
+			var context:LoaderContext;
+			for each ( path in _paths ) {
+				if ( !path.match(/\.(mp3|aif|aifff|wav)$/) ) {
+					context = new LoaderContext(false, ApplicationDomain.currentDomain);
+					option = { context:context }
+				} else {
+					option = null;
+				}
+				_loader.add( path, option );
+			}
 			_loader.addEventListener( BulkProgressEvent.PROGRESS, dispatchEvent );
 			_loader.addEventListener( BulkProgressEvent.COMPLETE, dispatchEvent );
 			_loader.start();
