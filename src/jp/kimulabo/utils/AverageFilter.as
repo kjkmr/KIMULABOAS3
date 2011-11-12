@@ -21,18 +21,26 @@
 		}
 		
 		/*--------------------------------------------------
-		* コンストラクタ
+		* set value
+		--------------------------------------------------*/
+		public function setValue( i_value:Number ):void {
+			var i:uint = 0;
+			for ( i=0; i<_taps; i++ ) _values[i] = i_value;
+		}
+		
+		/*--------------------------------------------------
+		* process
 		--------------------------------------------------*/
 		public function process( i_sample:Number ):Number {
 			var acc:Number = 0;
-			var i:Number = 0;
+			var i:uint = 0;
 			
 			
 			//初回だけ必要分サンプルを埋める
 			if ( _first ) {
-				for ( i=0; i<_taps; i++ ) _values[i] = i_sample;
-				_first = false;
-				return 0;
+				setValue( i_sample );
+				_first（ = false;
+				return i_sample;
 			}
 			
 			_values[0] = i_sample;
