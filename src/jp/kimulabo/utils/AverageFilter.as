@@ -39,7 +39,7 @@
 			//初回だけ必要分サンプルを埋める
 			if ( _first ) {
 				setValue( i_sample );
-				_first（ = false;
+				_first = false;
 				return i_sample;
 			}
 			
