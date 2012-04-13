@@ -20,6 +20,7 @@ package jp.kimulabo.utils {
 		private var _paths:Array = [];
 		private var _loader:BulkLoader;
 		private var _connection:int;
+		private var _progress:Number;
 		
 		public var weight:Number;
 		public function get paths():Array { return _paths.concat(); }
@@ -62,11 +63,16 @@ package jp.kimulabo.utils {
 				}
 				_loader.add( path, option );
 			}
-			_loader.addEventListener( BulkProgressEvent.PROGRESS, dispatchEvent );
+			_loader.addEventListener( BulkProgressEvent.PROGRESS, _onProgress );
 			_loader.addEventListener( BulkProgressEvent.COMPLETE, dispatchEvent );
 			_loader.start();
 		}
 		
-		public function get progress():Number { return _loader.percentLoaded; }
+		private function _onProgress( i_event:BulkProgressEvent ):void {
+			_progress = i_event.weightPercent;
+			dispatchEvent( i_event );
+		}
+		
+		public function get progress():Number { return _progress; }
 	}
 }
