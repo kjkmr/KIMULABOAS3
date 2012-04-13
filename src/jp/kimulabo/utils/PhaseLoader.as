@@ -1,4 +1,4 @@
-﻿package jp.kimulabo.utils {
+package jp.kimulabo.utils {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.display.Bitmap;
@@ -129,9 +129,12 @@
 		/*--------------------------------------------------
 		* データの取得
 		--------------------------------------------------*/
-		public function get( i_key:String, i_clearMemory:Boolean = false ):* {
+		public function get( i_key:String, i_type:Class = null, i_clearMemory:Boolean = false ):* {
 			var b:BulkLoader = BulkLoader.whichLoaderHasItem( i_key );
 			if ( !b ) return null;
+			if ( i_type ) {
+				return b.getContentAsType( i_key, i_type, i_clearMemory );
+			}
 			if ( i_key.match(/^.+\.([a-z0-9]+)/) ) {
 				var img:Array = BulkLoader.IMAGE_EXTENSIONS;
 				var ext:String = i_key.replace(/^.+\.([a-z0-9]+)/i,"$1").toLowerCase();
